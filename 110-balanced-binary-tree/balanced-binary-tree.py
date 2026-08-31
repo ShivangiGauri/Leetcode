@@ -7,19 +7,15 @@
 
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        def dfs(node):
-            if not node:
+        ans = True
+        def order(root):
+            nonlocal ans
+            if root == None:
                 return 0
-            
-            left = dfs(node.left)
-            if left == -1: return -1
-            
-            right = dfs(node.right)
-            if right == -1: return -1
-            
+            left = order(root.left) + 1
+            right = order(root.right) + 1
             if abs(left - right) > 1:
-                return -1
-            
-            return 1 + max(left, right)
-            
-        return dfs(root) != -1
+                ans = False
+            return max(left,right)
+        order(root)
+        return ans
